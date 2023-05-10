@@ -1,0 +1,42 @@
+/* http://elvery.net/demo/responsive-tables/?fbclid=IwAR0JMX6V0usAwn4mwsZT9PO_nd3oaTZ7XDzWE8nXEJTWfh7VDxoI-5EJxyA */
+
+@media only screen and (max-width: 1024px) {
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -99999px;
+        left: -99999px;
+    }
+
+    tr {
+        border: 1px;
+        padding-bottom: 20px;
+    }
+    td > div {
+        left: 10%;
+        border: none;
+        position: relative;
+        white-space: normal;
+        text-align: left;
+    }
+
+    td::before {
+        position: absolute;
+        top: 10px;
+        left: 6px;
+        width: 45%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 700;
+        color: #01977a;
+        content: "";
+    }
+}
