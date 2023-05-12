@@ -135,7 +135,7 @@ const centerDialogVisable = ref(false);
 let DialogData = reactive({id:"",title:"",price:0,image:"",category:"" ,description:""});
 const form = reactive({
     qty:1,
-    spec:['單一規格'],
+    spec:'單一規格',
     discount:0.9,
 })
 // get All Product

@@ -13,7 +13,8 @@ export const useShippingCartStore = defineStore("shoppingcart", () => {
     };
 
     const getCartsList = () => {
-        return carts;
+        console.log("carts list", carts);
+        return carts.value;
     };
 
     const getCartsItmes = () => {

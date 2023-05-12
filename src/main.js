@@ -29,8 +29,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 const useErrorLog = useErrorLogStore();
 
-app.config.errorHandler = (err, instance, info) => {
-    // console.log(`Error: ${err.toString()}\nInfo: ${info}`);
-    useErrorLog.addErrorLog(err);
-};
+// app.config.errorHandler = (err, instance, info) => {
+//     // console.log(`Error: ${err.toString()}\nInfo: ${info}`);
+//     useErrorLog.addErrorLog(err);
+// };
 app.mount("#app");

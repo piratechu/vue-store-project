@@ -6,3 +6,4 @@ export const getAllProducts = () => api("get", "/products");
 export const getSingleProduct = (data) => api("get", "/products", data);
 export const getAllCategories = () => api("get", "/products/categories");
 export const getProductInSpecCategory = (category) => api("get", "/products/category/" + category);
+export const getProductsLimit = (count) => api("get", "/products?limit=" + count);
