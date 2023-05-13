@@ -199,6 +199,9 @@ function PutProductInCart(product,form){
         type:'success',
         message: product.id +":" + product.title + ", price:" + product.price +",Qty:" + form.qty + "("  + form.discount +")",
     })
+
+    // 確認訂購商品是否重複，若重複就加上去或者警告異常
+    
     useCarts.pushCart({product,form});
     centerDialogVisable.value = false;
 }

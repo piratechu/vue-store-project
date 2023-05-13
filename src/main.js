@@ -18,6 +18,8 @@ import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "./style.css";
 import App from "./App.vue";
+// global compoment
+import SvgIcon from "./components/SvgIcon.vue";
 
 // hljs.registerLanguage("javascript", javascript);
 // hljs.registerLanguage("tsql", javascript);
@@ -28,11 +30,12 @@ const app = createApp(App).use(i18n).use(createPinia()).use(ElementPlus).use(rou
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
-
-const useErrorLog = useErrorLogStore();
-
+// 攔截錯誤log，可以在production註冊或者傳送到遠端伺服器
+// const useErrorLog = useErrorLogStore();
 // app.config.errorHandler = (err, instance, info) => {
 //     // console.log(`Error: ${err.toString()}\nInfo: ${info}`);
 //     useErrorLog.addErrorLog(err);
 // };
+// global registration - can use anywhere
+app.component("svgIcon", SvgIcon);
 app.mount("#app");

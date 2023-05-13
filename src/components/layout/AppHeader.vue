@@ -7,7 +7,7 @@
         @select="handleSelect"
         router
     >
-        <el-menu-item index="/"><img src="../../assets/vue.svg" /></el-menu-item>
+        <el-menu-item index="/"><svgIcon name="vue" :size="40" /></el-menu-item>
 
         <el-menu-item index="/product">All Product</el-menu-item>
         <el-sub-menu index="2">
