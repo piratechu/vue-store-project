@@ -4,6 +4,8 @@ import { createPinia } from "pinia";
 import router from "./router/index.js";
 import { useErrorLogStore } from "./store/errorLog";
 
+import "virtual:svg-icons-register";
+
 // import "highlight.js/styles/stackoverflow-light.css";
 // import hljs from "highlight.js/lib/core";
 // import javascript from "highlight.js/lib/languages/javascript";

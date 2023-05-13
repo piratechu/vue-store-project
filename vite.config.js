@@ -1,6 +1,8 @@
 import { defineConfig, loadEnv } from "vite";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "url";
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+import path from "path";
 import vue from "@vitejs/plugin-vue";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
@@ -11,5 +13,16 @@ export default defineConfig({
         VueI18nPlugin({
             include: resolve(dirname(fileURLToPath(import.meta.url)), "./src/i18n/lang/**"),
         }),
+        createSvgIconsPlugin({
+            // 指定緩存的圖標資料夾
+            iconDirs: [path.resolve(process.cwd(), "src/assets")],
+            // 指定 symbol Id 格式
+            symbolId: "icon-[dir]-[name]",
+        }),
     ],
+    resolve: {
+        alias: {
+            "@": resolve(__dirname, "src"),
+        },
+    },
 });
