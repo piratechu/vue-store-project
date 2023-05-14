@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 
 //1. define route component
 // import ProductList from "../components/ProductList.vue";
@@ -86,7 +86,9 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
+    model: "history",
+    // history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory("myapp"),
     routes,
 });
 
