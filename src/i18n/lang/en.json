@@ -1,3 +1,6 @@
 {
-    "__hello_world": "Hello World"
+    "__hello_world": "Hello World",
+    "product": {
+        "MsgRepeatOrder": "Repeat Order"
+    }
 }

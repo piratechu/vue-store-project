@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import i18n from "./i18n/i18n";
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import router from "./router/index.js";
 import { useErrorLogStore } from "./store/errorLog";
 
@@ -21,10 +22,11 @@ import App from "./App.vue";
 // global compoment
 import SvgIcon from "./components/SvgIcon.vue";
 
-// hljs.registerLanguage("javascript", javascript);
-// hljs.registerLanguage("tsql", javascript);
+//import Pinia Persist
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
-const app = createApp(App).use(i18n).use(createPinia()).use(ElementPlus).use(router);
+const app = createApp(App).use(i18n).use(pinia).use(ElementPlus).use(router);
 // app.use(hljsVuePlugin);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

@@ -1,3 +1,6 @@
 {
-    "__hello_world": "你好 世界"
+    "__hello_world": "你好 世界",
+    "product": {
+        "MsgRepeatOrder": "重複訂購商品"
+    }
 }

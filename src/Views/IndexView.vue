@@ -8,6 +8,7 @@
             inactive-text="EN"
         />
         <h1>{{ $t("__hello_world") }}</h1>
+        <h1>{{ $t("product.MsgRepeatOrder") }}</h1>
         <svgIcon name="svg-bug-line" />
         <svgIcon name="vue" />
     </div>

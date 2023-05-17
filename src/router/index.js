@@ -87,23 +87,24 @@ const routes = [
 
 const router = createRouter({
     model: "history",
-    // history: createWebHistory(process.env.BASE_URL),
-    history: createWebHistory("myapp"),
+    // import.meta.env.BASE_URL from vite.config.js => base define
+    // history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 });
 
 //前置守衛
 router.beforeEach(async (to, form, next) => {
-    // const useToken = useTokenStore();
-    // console.log("router:", useToken.Token);
-    // if (to.matched.some((r) => r.meta.Auth) && !useToken.Token) {
-    //     next({ name: "login" });
-    // 如果想要用跳轉模式
-    // next({name:'login',query:{redicect:to.fullPath}});
-    // 頁面可以使用 useRoute => route.query.redirect 的方式轉換目錄
-    // } else {
-    next();
-    // }
+    const useToken = useTokenStore();
+    console.log("vue router:", useToken.Token);
+    if (to.matched.some((r) => r.meta.Auth) && !useToken.Token) {
+        next({ name: "login" });
+        // 如果想要用跳轉模式
+        // next({name:'login',query:{redicect:to.fullPath}});
+        // 頁面可以使用 useRoute => route.query.redirect 的方式轉換目錄
+    } else {
+        next();
+    }
 });
 
 router.afterEach(() => {});

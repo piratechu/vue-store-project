@@ -3,15 +3,23 @@
 // https://fakestoreapi.com 的 web api = product 統一進入點
 
 import axios from "axios";
+//導入 pinia token
+import { useTokenStore } from "../store/token";
 
 // 自定義創建 axios instance 的默認值
 // 參考 : https://ithelp.ithome.com.tw/articles/10230336
+
+const useToken = useTokenStore();
 
 const instance = axios.create({
     //官網更多的設定說明 https://github.com/axios/axios#request-config
     baseURL: import.meta.env.VITE_API_URL,
     timeout: 6000,
-    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+    headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${useToken.Token}`,
+    },
 });
 
 // request interceptors，攔截請求

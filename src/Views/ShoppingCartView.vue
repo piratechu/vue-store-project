@@ -3,45 +3,13 @@
         <el-col :span="12">
             <div>
                 <br />
-                <el-alert type="info" title="免費寄送" description="適用於 NT$4,500 以上訂單。" />
-                <el-row v-for="l in cartsItems" :id="l.id">
-                    <el-col :span="6"
-                        ><el-image :src="l.product.image" style="height: 100px; margin: 10px auto" fit="contain" />
-                    </el-col>
-                    <el-col :span="12">
-                        <div style="font-size: 1.2rem">{{ l.product.title }}</div>
-                        <div style="font-size: 1rem">{{ l.product.category }}</div>
-                        <div>
-                            <el-select v-model="l.form.spec">
-                                <template #prefix> 規格 </template>
-                                <el-option :key="1" value="單一規格" />
-                            </el-select>
-                            <el-select v-model="l.form.qty">
-                                <template #prefix> 數量 </template>
-                                <el-option v-for="i in 10" :key="i" :value="i" />
-                            </el-select>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div
-                            style="
-                                display: flex;
-                                font-size: 2rem;
-                                position: relative;
-                                height: 100%;
-                                align-items: center;
-                                color: #555;
-                            "
-                        >
-                            <span style="text-decoration-line: line-through; color: #ccc">${{ l.product.price }}</span>
-
-                            <span
-                                >${{ Math.round(l.product.price * l.form.qty * l.form.discount * 100.0) / 100.0 }}</span
-                            >
-                        </div></el-col
-                    >
-                    <el-divider />
+                <el-row>
+                    <el-alert type="info" title="免費寄送" description="適用於 NT$4,500 以上訂單。" />
                 </el-row>
+                <!-- 購物車列表物件 -->
+                <template v-for="l in cartsItems" :id="l.product.id">
+                    <CartItemCard :cartItem="l" />
+                </template>
             </div>
         </el-col>
         <el-col :span="10">
@@ -102,6 +70,8 @@
 import { useShippingCartStore } from "../store/ShoppingCart";
 import { getProductsLimit } from "../apis/apiProducts";
 import { watchEffect, ref, computed } from "vue";
+import CartItemCard from "../components/CartItemCard.vue/";
+import svgIcon from "../components/SvgIcon.vue";
 
 const useCarts = useShippingCartStore();
 const recommend = ref({});

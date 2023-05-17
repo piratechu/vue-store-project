@@ -74,7 +74,7 @@
     <!-- <el-dialog v-model="centerDialogVisable" title="加入購物車" width="30%" height="300px" center> -->
     <el-drawer v-model="centerDialogVisable" :show-close="true" size="60%" style="height:55%;top:40%;right:20%;">
         <template #header>
-            <div><h3>{{ DialogData.title }}</h3></div>
+            <div><h3>Product:{{ DialogData.id }}</h3><h3>{{ DialogData.title }}</h3></div>
         </template>
         <el-row :gutter="5">
             <el-col :span="4" style="text-align: center;">
@@ -124,6 +124,9 @@ import { getAllProducts ,getAllCategories , getProductInSpecCategory} from "../a
 import { reactive, computed, ref, watchEffect } from "vue";
 import { ElMessage } from "element-plus";
 import { useShippingCartStore } from "../store/ShoppingCart";
+import {useI18n} from "vue-i18n";
+
+const i18n = useI18n();
 
 
 const Products = reactive({});
@@ -194,16 +197,34 @@ function ConfirmPutInCart(Product){
 }
 
 function PutProductInCart(product,form){
-    ElMessage({
+    // 確認訂購商品是否重複，若重複就加上去或者警告異常
+    let tmpArr = useCarts.getCartsList();
+    console.log("tmpArr:", tmpArr);
+    tmpArr = tmpArr.filter((el) =>{
+        console.log("product repeat check:", el.product.id ,"vs", product.id);
+        return el.product.id === product.id
+    })
+
+    // 可以有兩個作法，拋出 error 或者在同商品增加數量
+    if(tmpArr.length === 1){
+        ElMessage({
+        showClose: true,
+        type:'error',
+        message: i18n.t("product.MsgRepeatOrder"),
+    })
+    }else{
+        ElMessage({
         showClose: true,
         type:'success',
         message: product.id +":" + product.title + ", price:" + product.price +",Qty:" + form.qty + "("  + form.discount +")",
     })
 
-    // 確認訂購商品是否重複，若重複就加上去或者警告異常
-    
+    // 不重複，push in carts
     useCarts.pushCart({product,form});
+    }
+    // 關閉採購確認視窗
     centerDialogVisable.value = false;
+
 }
 </script>
 

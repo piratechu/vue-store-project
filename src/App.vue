@@ -1,5 +1,8 @@
 <script setup>
 import { provide } from "vue";
+// import { useI18n } from "vue-i18n";
+
+// const { t } = useI18n();
 // define setting
 // system name
 provide("appName", "store-project");
