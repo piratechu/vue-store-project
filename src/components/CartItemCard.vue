@@ -18,7 +18,7 @@
             </div>
             <div style="padding-top: 10px">
                 <svgIcon name="svg-favorite" size="32" />
-                <svgIcon name="svg-delete" size="32" />
+                <svgIcon name="svg-delete" size="32" class="svgDelete" @click="removeCarts(product.id)" />
             </div>
         </el-col>
         <el-col :span="6">
@@ -43,6 +43,8 @@
 
 <script setup>
 import svgIcon from "../components/SvgIcon.vue";
+import { useShippingCartStore } from "../store/ShoppingCart";
+
 name: "CartItemCard";
 const props = defineProps({
     cartItem: Object,
@@ -51,7 +53,16 @@ const props = defineProps({
 
 //console.log("CartItemCard:", props.cartItem);
 const { product, form } = props.cartItem;
+const useCarts = useShippingCartStore();
 console.log("CartItemCard:", product, form);
+
+function removeCarts(id) {
+    useCarts.moveOutCarts(id);
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.svgDelete {
+    cursor: pointer;
+}
+</style>

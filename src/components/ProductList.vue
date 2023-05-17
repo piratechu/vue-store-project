@@ -5,11 +5,6 @@
     {{ c }}
     </el-button>
 </div>
-<!-- <el-row :gutter="2">
-        <el-col :span="1" v-for="i in 24" :key="i"><div class="grid-content ep-bg-purple">{{ i }}</div></el-col>
-</el-row> -->
-
-
     <el-main>
         <el-space direction="vertical" alignment="flex-start">
             <el-skeleton style="width: 240px" :loading="loading" animated :count="1" :throttle="500">
@@ -72,7 +67,7 @@
     </el-main>
     <!-- 加入購物車提示 -->
     <!-- <el-dialog v-model="centerDialogVisable" title="加入購物車" width="30%" height="300px" center> -->
-    <el-drawer v-model="centerDialogVisable" :show-close="true" size="60%" style="height:55%;top:40%;right:20%;">
+    <el-drawer v-model="centerDialogVisable" :show-close="true" size="60%" style="height:55%;top:40%;right:20%;" :key="DialogData.id">
         <template #header>
             <div><h3>Product:{{ DialogData.id }}</h3><h3>{{ DialogData.title }}</h3></div>
         </template>
@@ -121,7 +116,7 @@
 
 <script setup>
 import { getAllProducts ,getAllCategories , getProductInSpecCategory} from "../apis/apiProducts";
-import { reactive, computed, ref, watchEffect } from "vue";
+import { reactive, computed, ref, watchEffect, isRef } from "vue";
 import { ElMessage } from "element-plus";
 import { useShippingCartStore } from "../store/ShoppingCart";
 import {useI18n} from "vue-i18n";
@@ -136,17 +131,17 @@ const useCarts = useShippingCartStore();
 // 顯示訂單確認視窗
 const centerDialogVisable = ref(false);
 let DialogData = reactive({id:"",title:"",price:0,image:"",category:"" ,description:""});
-const form = reactive({
+const form = {
     qty:1,
     spec:'單一規格',
     discount:0.9,
-})
+}
 // get All Product
 async function getProduct() {
     await getAllProducts()
         .then((res) => {
             Products.value = res.data;
-            console.log(res);
+            console.log("product:",Products.value);
             loading.value = false;
         })
         .catch((error) => {
@@ -157,8 +152,9 @@ async function getProduct() {
 //get All Categories
 async function getCategories(){
     await getAllCategories().then((res) =>{
+        console.log(res.data);
         Categories.value = res.data;
-        console.log(Categories);
+        // console.log("categoreis:",Categories.value);
     })
     .catch((error)=>{
         ElMessage.error("Opps!!", error);
@@ -186,18 +182,24 @@ function getProductInSpecificCategory(category){
 
 function ConfirmPutInCart(Product){
     const {id,title,price,image,category, description } = Product;
+    DialogData = {};
+    console.log("confirm:", DialogData);
     DialogData.id = id;
     DialogData.title = title;
     DialogData.price = price;
     DialogData.image = image;
     DialogData.category = category;
     DialogData.description = description ;
+    console.log("confirm:", DialogData);
+    
     // show Dialog in center
     centerDialogVisable.value = true;
 }
 
 function PutProductInCart(product,form){
     // 確認訂購商品是否重複，若重複就加上去或者警告異常
+    console.log("product isref:", isRef(form));
+
     let tmpArr = useCarts.getCartsList();
     console.log("tmpArr:", tmpArr);
     tmpArr = tmpArr.filter((el) =>{
