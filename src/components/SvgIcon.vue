@@ -1,5 +1,5 @@
 <template>
-    <svg aria-hidden="true" :class="['svg-icon', name]" :style="{ color, width: size, height: size }">
+    <svg aria-hidden="true" :class="['svg-icon', customClass]">
         <use :xlink:href="symbolId" />
     </svg>
 </template>
@@ -16,22 +16,24 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    color: {
+    className: {
         type: String,
-        default: "currentColor",
-    },
-    size: {
-        type: [String, Number],
-        default: 24,
+        required: false,
+        default: "",
     },
 });
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
+const customClass = computed(() => (props.className ? props.className : props.name));
 </script>
 
 <style scoped>
 .svg-icon {
     fill: currentColor;
-    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
 }
 </style>

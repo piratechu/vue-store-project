@@ -1,5 +1,5 @@
 <template>
-    <el-row :id="product.id">
+    <el-row>
         <el-col :span="6"
             ><el-image :src="product.image" style="height: 100px; margin: 10px auto" fit="contain" />
         </el-col>
@@ -17,8 +17,8 @@
                 </el-select>
             </div>
             <div style="padding-top: 10px">
-                <svgIcon name="svg-favorite" size="32" />
-                <svgIcon name="svg-delete" size="32" class="svgDelete" @click="removeCarts(product.id)" />
+                <svgIcon name="svg-favorite" className="svgFavorite" />
+                <svgIcon name="svg-delete" className="svgDelete" @click="removeCarts(product.id)" />
             </div>
         </el-col>
         <el-col :span="6">
@@ -64,5 +64,12 @@ function removeCarts(id) {
 <style lang="scss" scoped>
 .svgDelete {
     cursor: pointer;
+}
+.svgDelete:hover {
+    color: red;
+}
+
+.svgFavorite:hover {
+    color: red;
 }
 </style>

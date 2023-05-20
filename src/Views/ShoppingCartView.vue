@@ -7,9 +7,9 @@
                     <el-alert type="info" title="免費寄送" description="適用於 NT$4,500 以上訂單。" />
                 </el-row>
                 <!-- 購物車列表物件 -->
-                <template v-for="l in cartsItems" :id="l.product.id">
-                    <CartItemCard :cartItem="l" />
-                </template>
+                <div>
+                    <CartItemCard v-for="l in cartsItems" :key="l.product.id" :cartItem="l" />
+                </div>
             </div>
         </el-col>
         <el-col :span="10">
@@ -80,9 +80,9 @@ const totalFee = computed(() => {
     let tmp = cartsItems.value;
     let tmpTotal = 0;
     tmp.filter((el) => {
-        tmpTotal += Math.round(el.form.qty * el.product.price * el.form.discount * 100.0) / 100.0;
+        tmpTotal += el.form.qty * el.product.price * el.form.discount;
     });
-    return tmpTotal;
+    return tmpTotal.toFixed(2);
 });
 
 watchEffect(async () => {

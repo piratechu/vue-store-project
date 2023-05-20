@@ -66,7 +66,6 @@
         </el-space>
     </el-main>
     <!-- 加入購物車提示 -->
-    <!-- <el-dialog v-model="centerDialogVisable" title="加入購物車" width="30%" height="300px" center> -->
     <el-drawer v-model="centerDialogVisable" :show-close="true" size="60%" style="height:55%;top:40%;right:20%;" :key="DialogData.id">
         <template #header>
             <div><h3>Product:{{ DialogData.id }}</h3><h3>{{ DialogData.title }}</h3></div>
@@ -83,13 +82,13 @@
         <el-col :span="16" :offset="2" style="margin-top: 20px;">
         <el-form :model="form">
             <el-form-item label="規格">
-                <el-select v-model="form.spec">
+                <el-select v-model="form.spec" placeholder="請選擇">
                     <el-option :key="0" value="單一規格"/>
                 </el-select>
             </el-form-item>
             <el-form-item label="數量">
-                <el-select v-model="form.qty">
-                    <el-option v-for="i in 10" :key="i" :value="i"/>
+                <el-select v-model="form.qty" placeholder="請選擇">
+                    <el-option v-for="i in 5" :key="i" :label="i" :value="i"/>
                 </el-select>
             </el-form-item>
         </el-form>
@@ -100,8 +99,8 @@
     </el-row>
         <div  class="DialogPriceItem">原價:{{ DialogData.price}}元</div>
         <div  class="DialogPriceItem" v-show="form.discount<1">折扣:{{ form.discount*10 }} 折</div>
-        <div  class="DialogPriceItem" >購買價格:{{ DialogData.price * form.qty * form.discount }}元</div>
-        <div  class="DialogPriceItem" v-show="form.discount<1">節省價格:{{ Math.round((DialogData.price * form.qty )-(DialogData.price * form.qty * form.discount)) }}元</div>
+        <div  class="DialogPriceItem" >購買價格:{{ discountPrice}}元</div>
+        <div  class="DialogPriceItem" v-show="form.discount<1">節省價格:{{ savingPrice }}元</div>
         <template #footer>
             <span class="dialog-footer">
                 <el-button @click="centerDialogVisable = false">取消</el-button>
@@ -131,11 +130,11 @@ const useCarts = useShippingCartStore();
 // 顯示訂單確認視窗
 const centerDialogVisable = ref(false);
 let DialogData = reactive({id:"",title:"",price:0,image:"",category:"" ,description:""});
-const form = {
-    qty:1,
-    spec:'單一規格',
-    discount:0.9,
-}
+const form = reactive({
+    qty: 1,
+    spec:"",
+    discount:1,
+});
 // get All Product
 async function getProduct() {
     await getAllProducts()
@@ -164,6 +163,15 @@ async function getCategories(){
 
 const ProductsData = computed(() => Products.value);
 const CategoriesData = computed(() => Categories.value);
+const discountPrice = computed(() => {
+    let price = (DialogData.price* form.qty * form.discount).toFixed(2);
+    return price;
+} );
+const savingPrice = computed(() => {
+    let price = ((DialogData.price * form.qty) - discountPrice.value).toFixed(2);
+    return price;
+} );
+
 // const ProdCategorics = computed(()=> Categories.value);
 watchEffect(async () =>{
     getProduct();
@@ -181,24 +189,25 @@ function getProductInSpecificCategory(category){
 }
 
 function ConfirmPutInCart(Product){
-    const {id,title,price,image,category, description } = Product;
+    const {id,title,price,image,category, description} = Product;
     DialogData = {};
-    console.log("confirm:", DialogData);
     DialogData.id = id;
     DialogData.title = title;
     DialogData.price = price;
     DialogData.image = image;
     DialogData.category = category;
     DialogData.description = description ;
-    console.log("confirm:", DialogData);
-    
+    // form = {};
+    form.qty = 1;
+    form.spec = "單一規格";
+    form.discount = 0.9;
     // show Dialog in center
     centerDialogVisable.value = true;
 }
 
 function PutProductInCart(product,form){
     // 確認訂購商品是否重複，若重複就加上去或者警告異常
-    console.log("product isref:", isRef(form));
+    console.log("product isref:", form);
 
     let tmpArr = useCarts.getCartsList();
     console.log("tmpArr:", tmpArr);

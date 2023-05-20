@@ -7,7 +7,7 @@
         @select="handleSelect"
         router
     >
-        <el-menu-item index="/"><svgIcon name="vue" :size="40" /></el-menu-item>
+        <el-menu-item index="/"><svgIcon name="vue" /></el-menu-item>
 
         <el-menu-item index="/product">All Product</el-menu-item>
         <el-sub-menu index="2">
@@ -168,6 +168,11 @@ onMounted(() => {
     outline: unset;
 }
 
+.vue {
+    list-style: none;
+    height: 50px;
+    width: 50px;
+}
 /* https://blog.csdn.net/lllfy137/article/details/122367023 */
 /* menu 樣式變更範例 */
 </style>
